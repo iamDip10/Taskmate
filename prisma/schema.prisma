@@ -1,0 +1,68 @@
+// TaskMate — a tiny, two-person task board.
+// Keep this schema small on purpose: it should stay readable in one sitting.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TaskStatus {
+  GIVEN
+  COMPLETED
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+}
+
+/// A label is just a named, iconed tag. New labels can be added from
+/// Settings without touching code, which is what "easy to extend" means here.
+model Label {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  icon      String   @default("📌")
+  createdAt DateTime @default(now())
+  tasks     Task[]
+
+  @@map("labels")
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(GIVEN)
+  priority    Priority   @default(NORMAL)
+  order       Int        @default(0)
+
+  labelId String
+  label   Label  @relation(fields: [labelId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  reaction Reaction?
+
+  @@index([status])
+  @@map("tasks")
+}
+
+/// The owner's one reaction per completed task — a quick emoji plus an
+/// optional short note. Deliberately not a list: one task, one verdict.
+model Reaction {
+  id        String   @id @default(cuid())
+  taskId    String   @unique
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  emoji     String
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reactions")
+}
