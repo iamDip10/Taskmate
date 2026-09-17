@@ -174,7 +174,7 @@ export default function Dashboard({ role, initialTasks, labels: initialLabels }:
           <div className="pt-2">
             {role === "WORKER" && (
               <div className="mb-4 rounded-card bg-white px-4 py-3 shadow-soft">
-                <p className="text-sm font-medium text-ink">Today's tasks</p>
+                <p className="text-sm font-medium text-ink">Today&apos;s tasks</p>
                 <p className="text-xs text-ink-soft">
                   {given.length} remaining · {completedToday} completed today
                 </p>

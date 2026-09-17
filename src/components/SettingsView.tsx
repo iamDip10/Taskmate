@@ -51,14 +51,14 @@ export default function SettingsView({ role, labels, onLabelAdded }: Props) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "Couldn't add that label.");
+        setError(data.error ?? "Couldn&apos;t add that label.");
         return;
       }
       onLabelAdded(data.label);
       setNewLabel("");
       setNewIcon("📌");
     } catch {
-      setError("Couldn't reach the server.");
+      setError("Couldn&apos;t reach the server.");
     } finally {
       setAdding(false);
     }
@@ -121,7 +121,7 @@ export default function SettingsView({ role, labels, onLabelAdded }: Props) {
 
       <section className="rounded-card bg-white p-5 shadow-soft">
         <h2 className="text-sm font-semibold text-ink-soft">Session</h2>
-        <p className="mt-1 text-sm text-ink-soft">Forget this device's access code and role.</p>
+        <p className="mt-1 text-sm text-ink-soft">Forget this device&apos;s access code and role.</p>
         <button
           onClick={resetSession}
           className="mt-3 rounded-xl border border-clay-300 px-4 py-2 text-sm font-medium text-clay-600 transition active:scale-[0.98]"
