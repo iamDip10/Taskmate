@@ -68,7 +68,7 @@ export default function SettingsView({ role, labels, onLabelAdded }: Props) {
     <div className="space-y-6 pb-8">
       <section className="rounded-card bg-white p-5 shadow-soft">
         <h2 className="text-sm font-semibold text-ink-soft">Your role</h2>
-        <p className="mt-1 font-display text-lg text-ink">{role === "OWNER" ? "Dip" : "Wife"}</p>
+        <p className="mt-1 font-display text-lg text-ink">{role === "OWNER" ? "Dip" : "EITY (His Wife)"}</p>
         <button
           onClick={changeRole}
           className="mt-3 rounded-xl border border-berry-100 px-4 py-2 text-sm font-medium text-berry-600 transition active:scale-[0.98]"

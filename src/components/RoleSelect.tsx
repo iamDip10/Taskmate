@@ -45,7 +45,7 @@ export default function RoleSelect() {
           💐
         </span>
         <span>
-          <span className="block font-semibold text-ink">I&apos;m Wife</span>
+          <span className="block font-semibold text-ink">I&apos;m EITY (His Wife)</span>
           <span className="block text-sm text-ink-soft">See tasks and mark them done</span>
         </span>
         {pending === "WORKER" && <span className="ml-auto text-sm text-ink-soft">…</span>}

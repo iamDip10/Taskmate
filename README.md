@@ -1,10 +1,10 @@
 # TaskMate
 
 A small, shared task board for two people. No workspaces, no complicated
-permissions — just tasks Dip gives, and tasks Wife completes.
+permissions — just tasks Dip gives, and tasks EITY (His Wife) completes.
 
-- **Given tasks** — created by Dip, waiting for Wife.
-- **Completed tasks** — moved here once Wife marks them done. Dip can react
+- **Given tasks** — created by Dip, waiting for EITY (His Wife).
+- **Completed tasks** — moved here once EITY (His Wife) marks them done. Dip can react
   with an emoji and an optional note.
 
 ## Stack
@@ -20,13 +20,13 @@ required.
 There's no email/password login and no NextAuth. Instead:
 
 1. Anyone who knows the shared access code (`APP_ACCESS_CODE`) can get in.
-2. After entering it, they pick **"I'm Dip"** or **"I'm Wife"**.
+2. After entering it, they pick **"I'm Dip"** or **"I'm EITY (His Wife)"**.
 3. That choice is remembered on the device via a signed, `httpOnly` cookie —
    not `localStorage` — so it can't be read or edited from the browser
    console. The cookie is verified (HMAC signature) on every request, and
    every mutation endpoint re-checks the role on the server before doing
    anything. A hidden button in the UI is never the only thing stopping
-   Wife's account from deleting a task, for example — the API route itself
+   EITY (His Wife)'s account from deleting a task, for example — the API route itself
    refuses it.
 
 ## Project structure
@@ -38,7 +38,7 @@ prisma/
 src/
   app/
     login/              Access-code screen
-    role/                "I'm Dip" / "I'm Wife" screen
+    role/                "I'm Dip" / "I'm EITY (His Wife)" screen
     api/
       auth/              verify code, set role, logout/reset
       tasks/             CRUD + complete/reopen + reactions
@@ -155,7 +155,7 @@ it yourself. Use it if you want to wipe a dev database and start clean.
 - Session is an `httpOnly`, signed cookie (HMAC-SHA256) — the role can't be
   edited from the browser without knowing `SESSION_SECRET`.
 - Every mutating API route (`create`, `edit`, `delete`, `reopen`, `react`,
-  `add label`) calls `requireOwner()` and returns `403` for Wife's session,
+  `add label`) calls `requireOwner()` and returns `403` for EITY (His Wife)'s session,
   regardless of what the request body says.
 - `complete` is the one mutation both roles can call — intentionally, since
   either person might finish a task.

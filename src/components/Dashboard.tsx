@@ -141,7 +141,7 @@ export default function Dashboard({ role, initialTasks, labels: initialLabels }:
   return (
     <div className="mx-auto min-h-screen max-w-md pb-28 sm:max-w-2xl">
       <header className="px-5 pb-2 pt-8 sm:pt-10">
-        <p className="text-sm text-ink-soft">{greeting()}, {role === "OWNER" ? "Dip" : "Wife"} 👋</p>
+        <p className="text-sm text-ink-soft">{greeting()}, {role === "OWNER" ? "Dip" : "EITY (His Wife)"} 👋</p>
         <h1 className="font-display text-2xl italic text-ink">TaskMate</h1>
       </header>
 

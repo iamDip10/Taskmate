@@ -7,7 +7,7 @@ type Params = { params: { id: string } };
 
 export async function POST(req: NextRequest, { params }: Params) {
   return withAuthError(async () => {
-    // Reacting is Dip's private feedback to his wife — owner-only.
+    // Reacting is Dip's private feedback to his EITY (His Wife) — owner-only.
     requireOwner();
 
     const body = await req.json().catch(() => null);

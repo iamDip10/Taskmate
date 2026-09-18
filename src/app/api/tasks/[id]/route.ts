@@ -26,7 +26,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     }
 
     if (action === "complete") {
-      // Both Dip and his wife are allowed to mark something done — she does it
+      // Both Dip and his EITY (His Wife) are allowed to mark something done — she does it
       // from her task list, and Dip can do it too if he finishes something himself.
       if (existing.status === "COMPLETED") {
         return NextResponse.json({ task: existing });
@@ -95,7 +95,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 export async function DELETE(_req: NextRequest, { params }: Params) {
   return withAuthError(async () => {
     // Deleting a task is permanent, so this is owner-only, server-verified —
-    // a hidden button on the wife's screen would not be enough on its own.
+    // a hidden button on the EITY (His Wife)'s screen would not be enough on its own.
     requireOwner();
 
     const existing = await prisma.task.findUnique({ where: { id: params.id } });
