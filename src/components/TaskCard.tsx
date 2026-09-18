@@ -3,8 +3,9 @@
 import { useState } from "react";
 import type { Role } from "@/lib/session";
 import type { TaskDTO } from "@/types";
-import { PRIORITY_STYLES, formatGivenAt, formatTime, formatRelativeDay } from "@/lib/utils";
+import { PRIORITY_STYLES, formatGivenAt, formatTime, formatRelativeDay, extractFirstUrl } from "@/lib/utils";
 import ReactionBar from "./ReactionBar";
+import LinkPreviewCard from "./LinkPreviewCard";
 
 type Props = {
   task: TaskDTO;
@@ -32,6 +33,7 @@ export default function TaskCard({
   const priorityStyle = PRIORITY_STYLES[task.priority];
   const isOwner = role === "OWNER";
   const isCompleted = task.status === "COMPLETED";
+  const descriptionUrl = extractFirstUrl(task.description);
 
   function handleComplete() {
     setCompleting(true);
@@ -122,6 +124,12 @@ export default function TaskCard({
           <p className="mt-1 line-clamp-2 text-sm leading-snug text-ink-soft">{task.description}</p>
         )}
 
+        {descriptionUrl && (
+          <div className="mt-2">
+            <LinkPreviewCard url={descriptionUrl} compact />
+          </div>
+        )}
+
         <div className="mt-2.5 flex items-center gap-1.5 text-xs text-ink-soft">
           <span>{task.label.icon}</span>
           <span>{task.label.name}</span>
@@ -145,14 +153,14 @@ export default function TaskCard({
             <div className="mt-3 flex items-center gap-2 rounded-xl bg-berry-50 px-3 py-2">
               <span className="text-lg">{task.reaction.emoji}</span>
               <div className="min-w-0">
-                <p className="text-xs font-medium text-berry-700">Dip&apos;s reaction</p>
+                <p className="text-xs font-medium text-berry-700">Dip's reaction</p>
                 {task.reaction.note && (
                   <p className="truncate text-xs text-ink-soft">{task.reaction.note}</p>
                 )}
               </div>
             </div>
           ) : (
-            <p className="mt-3 text-xs italic text-ink-soft">Waiting on Dip&apos;s reaction…</p>
+            <p className="mt-3 text-xs italic text-ink-soft">Waiting on Dip's reaction…</p>
           )
         ) : (
           !isOwner && (

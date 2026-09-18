@@ -54,3 +54,15 @@ export const PRIORITY_STYLES: Record<
     border: "border-sage-200",
   },
 };
+
+const URL_PATTERN = /(https?:\/\/[^\s<>"']+)/i;
+
+/** Finds the first http(s) URL in a block of text, if any — used to decide
+ * whether a task's description should show a link preview. */
+export function extractFirstUrl(text: string | null | undefined): string | null {
+  if (!text) return null;
+  const match = text.match(URL_PATTERN);
+  if (!match) return null;
+  // Trim common trailing punctuation a sentence might leave stuck to the URL.
+  return match[1].replace(/[.,;:!?)\]]+$/, "");
+}

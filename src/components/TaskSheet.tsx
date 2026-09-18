@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { LabelDTO, Priority, TaskDTO } from "@/types";
-import { PRIORITY_STYLES } from "@/lib/utils";
+import { PRIORITY_STYLES, extractFirstUrl } from "@/lib/utils";
+import LinkPreviewCard from "./LinkPreviewCard";
 
 type Props = {
   labels: LabelDTO[];
@@ -22,6 +23,14 @@ export default function TaskSheet({ labels, editingTask, onClose, onCreate, onSa
   const [priority, setPriority] = useState<Priority>("NORMAL");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Debounce so we don't fire a fetch on every keystroke — just once typing pauses.
+  useEffect(() => {
+    const found = extractFirstUrl(description);
+    const id = setTimeout(() => setPreviewUrl(found), 400);
+    return () => clearTimeout(id);
+  }, [description]);
 
   useEffect(() => {
     if (editingTask) {
@@ -100,31 +109,42 @@ export default function TaskSheet({ labels, editingTask, onClose, onCreate, onSa
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Any details that'll help"
+              placeholder="Any details that'll help — paste a link and we'll preview it"
               rows={2}
               className="w-full resize-none rounded-xl border border-berry-100 bg-paper px-4 py-3 text-ink focus:border-berry-500 focus:bg-white focus:outline-none"
             />
+            {previewUrl && (
+              <div className="mt-2">
+                <LinkPreviewCard url={previewUrl} />
+              </div>
+            )}
           </div>
 
           <div>
             <label className="mb-1.5 block text-sm font-medium text-ink-soft">Label</label>
-            <div className="flex flex-wrap gap-2">
-              {labels.map((label) => (
-                <button
-                  type="button"
-                  key={label.id}
-                  onClick={() => setLabelId(label.id)}
-                  className={`flex items-center gap-1.5 rounded-full border px-3 py-2 text-sm transition ${
-                    labelId === label.id
-                      ? "border-berry-500 bg-berry-50 text-berry-700"
-                      : "border-berry-100 bg-white text-ink-soft"
-                  }`}
-                >
-                  <span>{label.icon}</span>
-                  {label.name}
-                </button>
-              ))}
-            </div>
+            {labels.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-berry-100 bg-paper px-4 py-3 text-sm text-ink-soft">
+                No labels yet. Add one from <span className="font-medium text-berry-600">Settings → Manage labels</span> first.
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {labels.map((label) => (
+                  <button
+                    type="button"
+                    key={label.id}
+                    onClick={() => setLabelId(label.id)}
+                    className={`flex items-center gap-1.5 rounded-full border px-3 py-2 text-sm transition ${
+                      labelId === label.id
+                        ? "border-berry-500 bg-berry-50 text-berry-700"
+                        : "border-berry-100 bg-white text-ink-soft"
+                    }`}
+                  >
+                    <span>{label.icon}</span>
+                    {label.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
@@ -162,7 +182,7 @@ export default function TaskSheet({ labels, editingTask, onClose, onCreate, onSa
             </button>
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || labels.length === 0}
               className="flex-1 rounded-xl bg-berry-500 py-3 text-sm font-semibold text-white shadow-soft transition active:scale-[0.98] disabled:opacity-60"
             >
               {saving ? "Saving…" : isEditing ? "Save changes" : "Give task"}
