@@ -153,14 +153,14 @@ export default function TaskCard({
             <div className="mt-3 flex items-center gap-2 rounded-xl bg-berry-50 px-3 py-2">
               <span className="text-lg">{task.reaction.emoji}</span>
               <div className="min-w-0">
-                <p className="text-xs font-medium text-berry-700">Dip's reaction</p>
+                <p className="text-xs font-medium text-berry-700">Dip&apos;s reaction</p>
                 {task.reaction.note && (
                   <p className="truncate text-xs text-ink-soft">{task.reaction.note}</p>
                 )}
               </div>
             </div>
           ) : (
-            <p className="mt-3 text-xs italic text-ink-soft">Waiting on Dip's reaction…</p>
+            <p className="mt-3 text-xs italic text-ink-soft">Waiting on Dip&apos;s reaction…</p>
           )
         ) : (
           !isOwner && (
